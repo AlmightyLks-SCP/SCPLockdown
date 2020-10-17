@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SCPLockdown")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A simple SCP SL EXILED v2.1.7 Plugin to lockdown SCPs at the beginning of the round for a specified amount of time.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("AlmightyLks")]
 [assembly: AssemblyProduct("SCPLockdown")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright ©  2020 AlmightyLks")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCPLockdown", "SCPLockdown\SCPLockdown.csproj", "{9EDFEA9A-C006-4814-BAD2-48D48AAFBCFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScpLockdown", "SCPLockdown\ScpLockdown.csproj", "{9EDFEA9A-C006-4814-BAD2-48D48AAFBCFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

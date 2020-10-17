@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace SCPLockdown.Helper
+namespace ScpLockdown.Helper
 {
     public static class Helper
     {

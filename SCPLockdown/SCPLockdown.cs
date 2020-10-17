@@ -2,19 +2,19 @@
 using EXServerEvents = Exiled.Events.Handlers.Server;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using SCPLockdown.EventHandlers;
+using ScpLockdown.EventHandlers;
 using System;
 using System.Linq;
 
-namespace SCPLockdown
+namespace ScpLockdown
 {
-    public class SCPLockdown : Plugin<Config>
+    public class ScpLockdown : Plugin<Config>
     {
         public override PluginPriority Priority { get; } = PluginPriority.High;
 
         private RoundHandler _roundHandler;
 
-        public SCPLockdown() { }
+        public ScpLockdown() { }
 
         public override void OnEnabled()
         {

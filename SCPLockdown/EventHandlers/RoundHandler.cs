@@ -1,6 +1,6 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events;
-using SCPLockdown.Helper;
+using ScpLockdown.Helper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,11 +12,11 @@ using UnityEngine;
 using Exiled.Events.EventArgs;
 using Exiled.API.Enums;
 
-namespace SCPLockdown.EventHandlers
+namespace ScpLockdown.EventHandlers
 {
     public class RoundHandler
     {
-        private List<Player> currentSCP106;
+        private List<Player> currentScp106;
         private List<KeyValuePair<Player, CoroutineHandle>> larryCoroutines;
         private List<CoroutineHandle> runningCoroutines;
         private Config config;
@@ -24,7 +24,7 @@ namespace SCPLockdown.EventHandlers
         {
             this.config = config;
             runningCoroutines = new List<CoroutineHandle>();
-            currentSCP106 = new List<Player>();
+            currentScp106 = new List<Player>();
             larryCoroutines = new List<KeyValuePair<Player, CoroutineHandle>>();
         }
 
@@ -33,7 +33,7 @@ namespace SCPLockdown.EventHandlers
             var configScpList = new Dictionary<RoleType, int>();
 
             //Filter unique RoleTypes
-            foreach (var entry in config.AffectedSCPs)
+            foreach (var entry in config.AffectedScps)
             {
                 if (!configScpList.Select((e) => e.Key).Contains(entry.Key))
                     configScpList.Add(entry.Key, entry.Value);
@@ -54,7 +54,7 @@ namespace SCPLockdown.EventHandlers
                         case RoleType.Scp106:
                             foreach (var player in Player.List.Where((e) => e.Role == RoleType.Scp106))
                             {
-                                currentSCP106.Add(player);
+                                currentScp106.Add(player);
 
                                 var prevPos = player.Position;
                                 player.SendToPocketDimension();

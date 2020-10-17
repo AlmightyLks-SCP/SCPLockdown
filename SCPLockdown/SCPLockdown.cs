@@ -14,8 +14,6 @@ namespace ScpLockdown
 
         private RoundHandler _roundHandler;
 
-        public ScpLockdown() { }
-
         public override void OnEnabled()
         {
             Log.Info("<AlmightyLks> SCPLockdown enabled");

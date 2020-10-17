@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="EventHandler\RoundHandler.cs" />
+    <Compile Include="EventHandler\LockdownHandler.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="ScpLockdown.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

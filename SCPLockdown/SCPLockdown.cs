@@ -1,5 +1,6 @@
 ﻿using EXPlayerEvents = Exiled.Events.Handlers.Player;
 using EXServerEvents = Exiled.Events.Handlers.Server;
+using EX079Events = Exiled.Events.Handlers.Scp079;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using ScpLockdown.EventHandlers;
@@ -12,7 +13,7 @@ namespace ScpLockdown
     {
         public override PluginPriority Priority { get; } = PluginPriority.High;
 
-        private RoundHandler _roundHandler;
+        private RoundHandler _lockdownHandler;
 
         public override void OnEnabled()
         {
@@ -27,23 +28,28 @@ namespace ScpLockdown
         }
         private void RegisterEvents()
         {
-            _roundHandler = new RoundHandler(Config);
+            _lockdownHandler = new RoundHandler(Config);
 
-            EXServerEvents.RoundStarted += _roundHandler.OnRoundStart;
-            EXPlayerEvents.ChangingRole += _roundHandler.OnChangingRole;
-            EXPlayerEvents.EscapingPocketDimension += _roundHandler.OnEscapingPocketDimension;
-            EXPlayerEvents.FailingEscapePocketDimension += _roundHandler.OnFailingEscapePocketDimension;
-            EXServerEvents.RoundEnded += _roundHandler.OnRoundEnded;
+            EXServerEvents.RoundStarted += _lockdownHandler.OnRoundStart;
+            EXPlayerEvents.ChangingRole += _lockdownHandler.OnChangingRole;
+            EXPlayerEvents.EscapingPocketDimension += _lockdownHandler.OnEscapingPocketDimension;
+            EXPlayerEvents.FailingEscapePocketDimension += _lockdownHandler.OnFailingEscapePocketDimension;
+            EX079Events.InteractingDoor += _lockdownHandler.OnInteractingDoor;
+            EX079Events.InteractingTesla += _lockdownHandler.OnInteractingTesla;
+            EXServerEvents.RoundEnded += _lockdownHandler.OnRoundEnded;
         }
+
         private void UnRegisterEvents()
         {
-            EXServerEvents.RoundStarted -= _roundHandler.OnRoundStart;
-            EXPlayerEvents.ChangingRole -= _roundHandler.OnChangingRole;
-            EXPlayerEvents.EscapingPocketDimension -= _roundHandler.OnEscapingPocketDimension;
-            EXPlayerEvents.FailingEscapePocketDimension -= _roundHandler.OnFailingEscapePocketDimension;
-            EXServerEvents.RoundEnded -= _roundHandler.OnRoundEnded;
+            EXServerEvents.RoundStarted -= _lockdownHandler.OnRoundStart;
+            EXPlayerEvents.ChangingRole -= _lockdownHandler.OnChangingRole;
+            EXPlayerEvents.EscapingPocketDimension -= _lockdownHandler.OnEscapingPocketDimension;
+            EXPlayerEvents.FailingEscapePocketDimension -= _lockdownHandler.OnFailingEscapePocketDimension;
+            EX079Events.InteractingDoor -= _lockdownHandler.OnInteractingDoor;
+            EX079Events.InteractingTesla -= _lockdownHandler.OnInteractingTesla;
+            EXServerEvents.RoundEnded -= _lockdownHandler.OnRoundEnded;
 
-            _roundHandler = null;
+            _lockdownHandler = null;
         }
     }
 }

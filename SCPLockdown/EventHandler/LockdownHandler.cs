@@ -16,16 +16,16 @@ namespace ScpLockdown.EventHandlers
 {
     public class RoundHandler
     {
-        private List<Player> currentScp106;
         private List<KeyValuePair<Player, CoroutineHandle>> larryCoroutines;
         private List<CoroutineHandle> runningCoroutines;
+        private bool scp079Interactable;
         private Config config;
         public RoundHandler(Config config)
         {
             this.config = config;
             runningCoroutines = new List<CoroutineHandle>();
-            currentScp106 = new List<Player>();
             larryCoroutines = new List<KeyValuePair<Player, CoroutineHandle>>();
+            scp079Interactable = true;
         }
 
         public void OnRoundStart()
@@ -51,11 +51,16 @@ namespace ScpLockdown.EventHandlers
                             heavyDoor173.locked = true;
                             runningCoroutines.Add(Timing.CallDelayed(scp.Value, () => { heavyDoor173.locked = false; }));
                             break;
+                        case RoleType.Scp079:
+                            scp079Interactable = false;
+                            runningCoroutines.Add(Timing.CallDelayed(scp.Value, () =>
+                            {
+                                scp079Interactable = true;
+                            }));
+                            break;
                         case RoleType.Scp106:
                             foreach (var player in Player.List.Where((e) => e.Role == RoleType.Scp106))
                             {
-                                currentScp106.Add(player);
-
                                 var prevPos = player.Position;
                                 player.SendToPocketDimension();
                                 player.IsInvisible = true;
@@ -83,19 +88,19 @@ namespace ScpLockdown.EventHandlers
                         case RoleType.Scp93989:
                             if (Player.List.Any((e) => e.Role == RoleType.Scp93953 || e.Role == RoleType.Scp93989))
                             {
-                                List<Door> ignoreDoors = new List<Door>();
+                                List<Door> targetDoors = new List<Door>();
 
                                 Room room939 = Map.Rooms.First((e) => e.Type == RoomType.Hcz939);
 
-                                ignoreDoors.Add(Map.Doors.GetClosestDoor(room939));
-                                ignoreDoors.Add(Map.Doors.GetClosestDoor(room939, false, ignoreDoors));
+                                targetDoors.Add(Map.Doors.GetClosestDoor(room939));
+                                targetDoors.Add(Map.Doors.GetClosestDoor(room939, false, targetDoors));
 
-                                foreach (var door in ignoreDoors)
+                                foreach (var door in targetDoors)
                                     door.locked = true;
 
                                 runningCoroutines.Add(Timing.CallDelayed(scp.Value, () =>
                                 {
-                                    foreach (var door in ignoreDoors)
+                                    foreach (var door in targetDoors)
                                         door.locked = false;
                                 }));
                             }
@@ -134,5 +139,9 @@ namespace ScpLockdown.EventHandlers
                 ev.Player.SendToPocketDimension();
             }
         }
+        public void OnInteractingTesla(InteractingTeslaEventArgs ev)
+            => ev.IsAllowed = scp079Interactable;
+        public void OnInteractingDoor(InteractingDoorEventArgs ev)
+            => ev.IsAllowed = scp079Interactable;
     }
 }

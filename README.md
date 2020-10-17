@@ -28,3 +28,21 @@ s_c_p_lockdown:
     Scp93989: 60
     Scp93953: 60
 ```
+
+---
+### Lockdown
+
+#### SCP 173
+Peanut's heavy gate will be locked down for the specified duration.  
+
+#### SCP 096
+Shy Guy's door towards the HCZ will be locked down for the specified duration.  
+
+#### SCP 106
+Larry will be put in lockdown inside of his own pocket dimension for the specified duration.  
+
+#### SCP 049
+The doctor's heavy gate will be locked down for the specified duration.  
+
+#### SCP 939 89 & 53
+The two stair-entry doors will be locked down for the specified duration.  

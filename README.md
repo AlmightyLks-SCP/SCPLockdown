@@ -17,10 +17,10 @@ However, when setting both of the 939 SCPs, the latter one will be the one domin
 Example:  
 
 ```yaml
-s_c_p_lockdown:
+scp_lockdown:
   is_enabled: true
   # The affected SCPs and their duration of lockdown.
-  affected_s_c_ps:
+  affected_scps:
     Scp173: 60
     Scp096: 60
     Scp106: 60

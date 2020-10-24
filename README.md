@@ -22,6 +22,7 @@ scp_lockdown:
   # The affected SCPs and their duration of lockdown.
   affected_scps:
     Scp173: 60
+    Scp079: 60
     Scp096: 60
     Scp106: 60
     Scp049: 60
@@ -34,6 +35,10 @@ scp_lockdown:
 
 #### SCP 173
 Peanut's heavy gate will be locked down for the specified duration.  
+
+#### SCP 173
+Computer cannot interact with doors, elevators and such for specified duration.
+(Swapping cameras excluded)
 
 #### SCP 096
 Shy Guy's door towards the HCZ will be locked down for the specified duration.  

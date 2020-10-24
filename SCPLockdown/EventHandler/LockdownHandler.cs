@@ -107,6 +107,9 @@ namespace ScpLockdown.EventHandlers
         public void OnInteractingDoor(InteractingDoorEventArgs ev)
             => ev.IsAllowed = !LockdownStates.Scp079LockedUp;
 
+        public void ResetAllStates()
+            => _lockdownStates.ResetAllStates();
+
         private Task Lockdown173(KeyValuePair<RoleType, int> scp)
         {
             Door door173 = Map.Doors.First((e) => String.Equals(e.DoorName, "173"));

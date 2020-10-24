@@ -49,5 +49,14 @@ namespace ScpLockdown.DirtyWorkaround
                     break;
             }
         }
+        public void ResetAllStates()
+        {
+            Scp173LockedUp = false;
+            Scp079LockedUp = false;
+            Scp096LockedUp = false;
+            Scp106LockedUp = false;
+            Scp049LockedUp = false;
+            Scp939LockedUp = false;
+        }
     }
 }

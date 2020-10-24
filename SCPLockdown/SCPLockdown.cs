@@ -58,6 +58,7 @@ namespace ScpLockdown
             EX079Events.InteractingTesla -= _lockdownHandler.OnInteractingTesla;
             EXServerEvents.RoundEnded -= _lockdownHandler.OnRoundEnded;
 
+            _lockdownHandler.ResetAllStates();
             _lockdownHandler = null;
         }
 

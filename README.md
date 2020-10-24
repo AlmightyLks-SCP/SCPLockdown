@@ -1,12 +1,12 @@
 # SCPLockdown
 
-A simple SCP SL [EXILED v2.1.7](https://github.com/galaxy119/EXILED/releases/tag/2.1.7) Plugin to lockdown SCPs at the beginning of the round for a specified amount of time.<br>
+A simple SCP SL [EXILED v2.1.8](https://github.com/galaxy119/EXILED/releases/tag/2.1.8) Plugin to lockdown SCPs at the beginning of the round for a specified amount of time.<br>
 
 ---
 ### Resources used
 
 - .NET Framework 4.7.2 Class Library
-- **EXILED** Library | Version 2.1.7
+- **EXILED** Library | Version 2.1.8
 
 ---
 ### Configs
@@ -22,6 +22,7 @@ scp_lockdown:
   # The affected SCPs and their duration of lockdown.
   affected_scps:
     Scp173: 60
+    Scp079: 60
     Scp096: 60
     Scp106: 60
     Scp049: 60
@@ -34,6 +35,10 @@ scp_lockdown:
 
 #### SCP 173
 Peanut's heavy gate will be locked down for the specified duration.  
+
+#### SCP 173
+Computer cannot interact with doors, elevators and such for specified duration.
+(Swapping cameras excluded)
 
 #### SCP 096
 Shy Guy's door towards the HCZ will be locked down for the specified duration.  

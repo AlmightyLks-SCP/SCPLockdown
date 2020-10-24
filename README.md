@@ -1,12 +1,12 @@
 # SCPLockdown
 
-A simple SCP SL [EXILED v2.1.7](https://github.com/galaxy119/EXILED/releases/tag/2.1.7) Plugin to lockdown SCPs at the beginning of the round for a specified amount of time.<br>
+A simple SCP SL [EXILED v2.1.8](https://github.com/galaxy119/EXILED/releases/tag/2.1.8) Plugin to lockdown SCPs at the beginning of the round for a specified amount of time.<br>
 
 ---
 ### Resources used
 
 - .NET Framework 4.7.2 Class Library
-- **EXILED** Library | Version 2.1.7
+- **EXILED** Library | Version 2.1.8
 
 ---
 ### Configs

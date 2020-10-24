@@ -18,7 +18,7 @@ namespace ScpLockdown
         public override PluginPriority Priority { get; } = PluginPriority.High;
 
         private RoundHandler _lockdownHandler;
-        
+
         public override void OnEnabled()
         {
             Log.Info("<AlmightyLks> SCPLockdown enabled");

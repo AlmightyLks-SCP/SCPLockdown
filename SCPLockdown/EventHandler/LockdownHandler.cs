@@ -71,6 +71,7 @@ namespace ScpLockdown.EventHandlers
                 }
             }));
         }
+
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
             if (larryCoroutines.Select((e) => e.Key).Contains(ev.Player))

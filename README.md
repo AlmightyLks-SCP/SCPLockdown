@@ -36,7 +36,7 @@ scp_lockdown:
 #### SCP 173
 Peanut's heavy gate will be locked down for the specified duration.  
 
-#### SCP 173
+#### SCP 079
 Computer cannot interact with doors, elevators and such for specified duration.
 (Swapping cameras excluded)
 

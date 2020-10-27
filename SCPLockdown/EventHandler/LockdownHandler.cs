@@ -78,6 +78,7 @@ namespace ScpLockdown.EventHandlers
             {
                 Timing.KillCoroutines(larryCoroutines.Where((e) => e.Key == ev.Player).Select((e) => e.Value));
                 larryCoroutines.RemoveAt(larryCoroutines.FindIndex((e) => e.Key == ev.Player));
+                ev.Player.IsGodModeEnabled = false;
             }
         }
         public void OnRoundEnded(RoundEndedEventArgs ev)
@@ -115,6 +116,7 @@ namespace ScpLockdown.EventHandlers
             Door door173 = Map.Doors.First((e) => String.Equals(e.DoorName, "173"));
             var heavyDoor173 = Map.Doors.GetClosestDoor(door173, true);
             heavyDoor173.locked = true;
+
             runningCoroutines.Add(Timing.CallDelayed(scp.Value, () =>
             {
                 heavyDoor173.locked = false;

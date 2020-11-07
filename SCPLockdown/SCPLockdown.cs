@@ -14,15 +14,16 @@ namespace ScpLockdown
 {
     public class ScpLockdown : Plugin<Config>
     {
+        private Version builtExiledV = new Version(2, 1, 15);
         public Harmony Harmony { get; private set; } = new Harmony("ScpLockdown.1");
         public override PluginPriority Priority { get; } = PluginPriority.High;
 
         private RoundHandler _lockdownHandler;
-
         public override void OnEnabled()
         {
             Log.Info("<AlmightyLks> SCPLockdown enabled");
-
+            if (RequiredExiledVersion > builtExiledV)
+                Log.Warn($"<AlmightyLks> SCPLockdown might be outdated | Server Exiled: v{RequiredExiledVersion}, Plugin Exiled: v{builtExiledV}");
             RegisterEvents();
             Patch();
 

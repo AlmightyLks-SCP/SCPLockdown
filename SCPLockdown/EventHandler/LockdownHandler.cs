@@ -74,17 +74,17 @@ namespace ScpLockdown.EventHandlers
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (larryCoroutines.Select((e) => e.Key).Contains(ev.Player))
+            if (larryCoroutines.Select((_) => _.Key).Contains(ev.Player))
             {
-                Timing.KillCoroutines(larryCoroutines.Where((e) => e.Key == ev.Player).Select((e) => e.Value));
-                larryCoroutines.RemoveAt(larryCoroutines.FindIndex((e) => e.Key == ev.Player));
+                larryCoroutines.Where((_) => _.Key == ev.Player).Select((_) => _.Value).ToList().ForEach((_) => Timing.KillCoroutines(_));
+                larryCoroutines.RemoveAt(larryCoroutines.FindIndex((_) => _.Key == ev.Player));
                 ev.Player.IsGodModeEnabled = false;
             }
         }
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            Timing.KillCoroutines(runningCoroutines);
-            Timing.KillCoroutines(larryCoroutines.Select((e) => e.Value));
+            runningCoroutines.ForEach((_) => Timing.KillCoroutines(_));
+            larryCoroutines.Select((_) => _.Value).ToList().ForEach((_) => Timing.KillCoroutines(_));
             runningCoroutines.Clear();
         }
         public void OnFailingEscapePocketDimension(FailingEscapePocketDimensionEventArgs ev)
@@ -104,7 +104,10 @@ namespace ScpLockdown.EventHandlers
             }
         }
         public void OnInteractingTesla(InteractingTeslaEventArgs ev)
-            => ev.IsAllowed = !LockdownStates.Scp079LockedUp;
+        {
+            if (LockdownStates.Scp079LockedUp)
+                ev.IsAllowed = false;
+        }
         public void OnInteractingDoor(InteractingDoorEventArgs ev)
             => ev.IsAllowed = !LockdownStates.Scp079LockedUp;
 

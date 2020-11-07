@@ -15,6 +15,7 @@ namespace ScpLockdown.Patch
     internal static class Scp079Patch
     {
         static bool Prefix(string command, GameObject target)
-            => (String.Equals(command.Split(':')[0], "DOORLOCK") || String.Equals(command.Split(':')[0], "ELEVATORUSE")) && LockdownStates.Scp079LockedUp ? false : true;
+             => (String.Equals(command.Split(':')[0], "DOORLOCK") || String.Equals(command.Split(':')[0], "ELEVATORUSE")) && LockdownStates.Scp079LockedUp ? false : true;
+
     }
 }

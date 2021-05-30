@@ -1,10 +1,12 @@
-﻿using Exiled.API.Features;
+﻿using SynapseDoor = Synapse.Api.Door;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Synapse.Api;
+using Synapse.Api.Enum;
 
 namespace ScpLockdown.Helper
 {
@@ -13,25 +15,31 @@ namespace ScpLockdown.Helper
         public static readonly Vector3 PocketDimensionPosition = new Vector3(0, -1998.67f, 2);
         public static void SendToPocketDimension(this Player player)
             => player.Position = PocketDimensionPosition;
-        public static Door GetClosestDoor(this IEnumerable<Door> doors, Door relativeDoor, bool onlyHeavyDoors = false, IEnumerable<Door> ignoreDoors = null)
-        {
-            ignoreDoors = ignoreDoors ?? Enumerable.Empty<Door>();
 
-            Door result = null;
+        public static SynapseDoor GetClosestDoor(
+            this IEnumerable<SynapseDoor> doors,
+            SynapseDoor relativeDoor,
+            bool onlyHeavyDoors = false,
+            IEnumerable<SynapseDoor> ignoreDoors = null
+            )
+        {
+            ignoreDoors = ignoreDoors ?? Enumerable.Empty<SynapseDoor>();
+
+            SynapseDoor result = null;
 
             float closestDistanceSqr = Mathf.Infinity;
-            Vector3 currentPosition = relativeDoor.gameObject.transform.position;
+            Vector3 currentPosition = relativeDoor.Position;
 
-            foreach (Door potentialDoor in doors)
+            foreach (SynapseDoor potentialDoor in doors)
             {
-                if (onlyHeavyDoors && potentialDoor.doorType != Door.DoorTypes.HeavyGate)
+                if (onlyHeavyDoors && !potentialDoor.DoorType.IsHeavy())
                     continue;
                 if (ignoreDoors.Contains(potentialDoor))
                     continue;
                 if (potentialDoor == relativeDoor)
                     continue;
 
-                Vector3 directionToTarget = potentialDoor.gameObject.transform.position - currentPosition;
+                Vector3 directionToTarget = potentialDoor.Position - currentPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
 
                 if (dSqrToTarget < closestDistanceSqr)
@@ -43,23 +51,29 @@ namespace ScpLockdown.Helper
 
             return result;
         }
-        public static Door GetClosestDoor(this IEnumerable<Door> doors, Room relativeRoom, bool onlyHeavyDoors = false, IEnumerable<Door> ignoreDoors = null)
-        {
-            ignoreDoors = ignoreDoors ?? Enumerable.Empty<Door>();
 
-            Door result = null;
+        public static SynapseDoor GetClosestDoor(
+            this IEnumerable<SynapseDoor> doors,
+            Room relativeRoom,
+            bool onlyHeavyDoors = false,
+            IEnumerable<SynapseDoor> ignoreDoors = null
+            )
+        {
+            ignoreDoors = ignoreDoors ?? Enumerable.Empty<SynapseDoor>();
+
+            SynapseDoor result = null;
 
             float closestDistanceSqr = Mathf.Infinity;
-            Vector3 currentPosition = relativeRoom.Transform.position;
+            Vector3 currentPosition = relativeRoom.Position;
 
-            foreach (Door potentialDoor in doors)
+            foreach (SynapseDoor potentialDoor in doors)
             {
-                if (onlyHeavyDoors && potentialDoor.doorType != Door.DoorTypes.HeavyGate)
+                if (onlyHeavyDoors && !potentialDoor.DoorType.IsHeavy())
                     continue;
                 if (ignoreDoors.Contains(potentialDoor))
                     continue;
 
-                Vector3 directionToTarget = potentialDoor.gameObject.transform.position - currentPosition;
+                Vector3 directionToTarget = potentialDoor.Position - currentPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
 
                 if (dSqrToTarget < closestDistanceSqr)
@@ -71,5 +85,12 @@ namespace ScpLockdown.Helper
 
             return result;
         }
+
+        public static bool IsHeavy(this DoorType type)
+            => type == DoorType.Gate_A ||
+            type == DoorType.Gate_B ||
+            type == DoorType.HCZ_049_Gate ||
+            type == DoorType.LCZ_173_Gate ||
+            type == DoorType.Surface_Gate;
     }
 }

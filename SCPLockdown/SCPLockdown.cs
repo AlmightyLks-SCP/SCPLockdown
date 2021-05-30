@@ -1,89 +1,85 @@
-﻿using EXPlayerEvents = Exiled.Events.Handlers.Player;
-using EXServerEvents = Exiled.Events.Handlers.Server;
-using EX079Events = Exiled.Events.Handlers.Scp079;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using ScpLockdown.EventHandlers;
+﻿using ScpLockdown.Handlers;
 using System;
-using System.Linq;
 using HarmonyLib;
-using Exiled.API.Interfaces;
-using Exiled.Loader;
+using Synapse.Api.Plugin;
+using System.Collections.Generic;
+using ScpLockdown.Configs;
+using System.Linq;
+using ScpLockdown.Services;
+using ScpLockdown.Patches;
 
 namespace ScpLockdown
 {
-    public class ScpLockdown : Plugin<Config>
+    [PluginInformation(
+        Author = "AlmightyLks",
+        Description = "Lockdown all the Scps at the beginning of the round",
+        Name = "ScpLockdown",
+        SynapseMajor = 2,
+        SynapseMinor = 6,
+        SynapsePatch = 0,
+        Version = "1.0.1"
+        )]
+    public sealed class ScpLockdown : AbstractPlugin
     {
-        private Version builtExiledV = new Version(2, 1, 15);
-        public Harmony Harmony { get; private set; } = new Harmony("ScpLockdown.1");
-        public override PluginPriority Priority { get; } = PluginPriority.High;
+        [Config(section = "ScpLockdown")]
+        public LockdownConfigs Config { get; set; }
+        public LockdownService LockdownService { get; private set; }
 
-        private RoundHandler _lockdownHandler;
-        public override void OnEnabled()
+        private Harmony _harmony;
+        private LockdownEventHandler _lockdownHandler;
+
+        public override void Load()
         {
-            Log.Info("<AlmightyLks> SCPLockdown enabled");
-            if (RequiredExiledVersion > builtExiledV)
-                Log.Warn($"<AlmightyLks> SCPLockdown might be outdated | Server Exiled: v{RequiredExiledVersion}, Plugin Exiled: v{builtExiledV}");
+            Scp079Patch.Plugin = this;
+            LockdownService = new LockdownService(this);
+            _harmony = new Harmony("ScpLockdown.Patches");
+            LegitimateConfig();
             RegisterEvents();
             Patch();
-
-            base.OnEnabled();
         }
-        public override void OnDisabled()
+        public override void ReloadConfigs()
         {
-            UnRegisterEvents();
-            Unpatch();
-
-            base.OnDisabled();
+            LegitimateConfig();
         }
 
+        private void LegitimateConfig()
+        {
+            var configScpListLegit = new Dictionary<RoleType, int>();
+
+            //Filter unique RoleTypes
+            foreach (var entry in Config.AffectedScps)
+            {
+                if (!configScpListLegit.Select((e) => e.Key).Contains(entry.Key))
+                    configScpListLegit.Add(entry.Key, entry.Value);
+            }
+
+            Config.AffectedScps = configScpListLegit;
+        }
         private void RegisterEvents()
         {
-            _lockdownHandler = new RoundHandler(this);
+            _lockdownHandler = new LockdownEventHandler(this);
 
-            EXServerEvents.RoundStarted += _lockdownHandler.OnRoundStart;
-            EXPlayerEvents.ChangingRole += _lockdownHandler.OnChangingRole;
-            EXPlayerEvents.EscapingPocketDimension += _lockdownHandler.OnEscapingPocketDimension;
-            EXPlayerEvents.FailingEscapePocketDimension += _lockdownHandler.OnFailingEscapePocketDimension;
-            EX079Events.InteractingDoor += _lockdownHandler.OnInteractingDoor;
-            EX079Events.InteractingTesla += _lockdownHandler.OnInteractingTesla;
-            EXServerEvents.RoundEnded += _lockdownHandler.OnRoundEnded;
+            Synapse.Api.Events.EventHandler.Get.Round.RoundStartEvent += _lockdownHandler.OnRoundStart;
+            Synapse.Api.Events.EventHandler.Get.Player.PlayerSetClassEvent += _lockdownHandler.OnSetClass;
+            Synapse.Api.Events.EventHandler.Get.Scp.Scp106.PocketDimensionLeaveEvent += _lockdownHandler.OnEscapingPocketDimension;
+            Synapse.Api.Events.EventHandler.Get.Map.TriggerTeslaEvent += _lockdownHandler.OnInteractingTesla;
+            Synapse.Api.Events.EventHandler.Get.Round.RoundEndEvent += _lockdownHandler.OnRoundEnd;
         }
-        private void UnRegisterEvents()
-        {
-            EXServerEvents.RoundStarted -= _lockdownHandler.OnRoundStart;
-            EXPlayerEvents.ChangingRole -= _lockdownHandler.OnChangingRole;
-            EXPlayerEvents.EscapingPocketDimension -= _lockdownHandler.OnEscapingPocketDimension;
-            EXPlayerEvents.FailingEscapePocketDimension -= _lockdownHandler.OnFailingEscapePocketDimension;
-            EX079Events.InteractingDoor -= _lockdownHandler.OnInteractingDoor;
-            EX079Events.InteractingTesla -= _lockdownHandler.OnInteractingTesla;
-            EXServerEvents.RoundEnded -= _lockdownHandler.OnRoundEnded;
-
-            _lockdownHandler.ResetAllStates();
-            _lockdownHandler = null;
-        }
-
         private void Patch()
         {
             try
             {
                 var lastDebugStatus = Harmony.DEBUG;
                 Harmony.DEBUG = true;
-
-                Harmony.PatchAll();
-
+                _harmony.PatchAll();
                 Harmony.DEBUG = lastDebugStatus;
 
-                Log.Debug("Patches applied successfully", Loader.ShouldDebugBeShown);
+                Synapse.Api.Logger.Get.Info("Patches applied successfully");
             }
             catch (Exception e)
             {
-                Log.Error($"Patching failed {e}");
+                Synapse.Api.Logger.Get.Error($"Patching failed {Environment.NewLine}{e}");
             }
-        }
-        private void Unpatch()
-        {
-            Harmony.UnpatchAll();
         }
     }
 }

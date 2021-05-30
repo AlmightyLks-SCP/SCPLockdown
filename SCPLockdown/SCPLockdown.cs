@@ -12,12 +12,12 @@ namespace ScpLockdown
 {
     [PluginInformation(
         Author = "AlmightyLks",
-        Description = "Lockdown all the Scps at the beginning of the round",
+        Description = "Lock down all the Scps at the beginning of the round",
         Name = "ScpLockdown",
         SynapseMajor = 2,
         SynapseMinor = 6,
         SynapsePatch = 0,
-        Version = "1.0.1"
+        Version = "2.0.0"
         )]
     public sealed class ScpLockdown : AbstractPlugin
     {

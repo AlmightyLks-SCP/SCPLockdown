@@ -27,7 +27,6 @@ namespace ScpLockdown.Handlers
         {
             if (ev.Player.RealTeam != Team.SCP)
             {
-                ev.Role = RoleType.Scp173;
                 return;
             }
             if (_plugin.LockdownService.TryGetCoroutines(ev.Player, out IEnumerable<CoroutineHandle> coroutines))

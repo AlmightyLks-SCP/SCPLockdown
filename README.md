@@ -1,3 +1,8 @@
+# OUTDATED
+This Plugin was intended for Synapse 2, and is not made, nor compatible with Synapse3.
+
+---
+
 # SCPLockdown
 
 A simple SCP SL [Synapse](https://github.com/SynapseSl/Synapse/) plugin to lockdown Scps at the beginning of the round for a specified amount of time.<br>
